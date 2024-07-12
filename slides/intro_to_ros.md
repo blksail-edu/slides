@@ -523,3 +523,15 @@ setup(
 chmod +x ~/auvc_ws/src/auvc_coursework/intro_to_ros/intro_to_ros/pubsub.py
 cd ~/auvc_ws && colcon build --packages-select intro_to_ros
 ```
+
+---
+
+<h1>Sourcing the Newly Compiled Package</h1>
+
+<ul>
+    <li>When a new package is built for the first time or an executable is added to a package that has already been built, the ROS2 workspace must be resourced.</li>
+</ul>
+
+```zsh
+source ~/auvc_ws/install/setup.zsh
+```
