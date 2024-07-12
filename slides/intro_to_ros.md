@@ -11,10 +11,6 @@ drawings:
 transition: slide-left
 title: Introduction to ROS2
 download: true
-
-
-
-
 layout: intro-image-right
 image: 'https://raw.githubusercontent.com/ros-infrastructure/artwork/master/distributions/jazzy/JazzyJalisco-noborder.png'
 ---
@@ -230,3 +226,300 @@ image: 'https://docs.ros.org/en/jazzy/_images/Service-MultipleServiceClient.gif'
 layout: image
 image: 'https://docs.ros.org/en/jazzy/_images/Action-SingleActionClient.gif'
 ---
+
+---
+
+<h1>Coding in the ROS2 Framework</h1>
+
+<ul>
+    <li>Nodes are compiled executables written in Python3 and C++.</li>
+    <li>Nodes are located in ROS2 packages.</li>
+    <li>Packages must be located in the src directory of a ROS2 workspace.</li>
+</ul>
+
+<h1>ROS2 Environment</h1>
+
+<ul>
+    <li>In ROS2, packages are either located at the installation path or in user-defined workspaces.</li>
+    <li>To use ROS2 commands and default packages, the <strong>installation</strong> must be <strong>sourced</strong>.</li>
+    <li>To run user-defined nodes, the user-defined ROS2 <strong>workspaces</strong> must also be <strong>sourced</strong>.</li> 
+</ul>
+
+---
+
+<h1>Creating a ROS2 Workspace</h1>
+
+<ul>
+    <li>A ROS2 workspace is a directory at a path, preferably at the home directory ~/.</li>
+    <li>When initializing the workspace, the ws directory must contain an empty src/ directory ~/your_ws/src/.</li>
+    <li>All packages must go in the src/ directory within the workspace to be compiled correctly.</li>
+    <li>For this course, we'll be creating and using a workspace named auvc_ws.</li>
+</ul>
+
+```zsh
+cd && mkdir auvc_ws && cd auvc_ws && mkdir src
+colcon build 
+```
+
+<ul>
+    <li>Colcon is the compiler used by ROS2.</li>
+    <li>Packages must be compiled in the workspace directory; e.g., ~/auvc_ws</li>
+</ul>
+
+```css {all|1|2|3|4|5|all}
+auvc_ws/
+├── build/
+├── install/
+├── log/
+└── src/
+```
+
+---
+
+<h1>Creating a ROS2 Workspace (cont.)</h1>
+
+<ul>
+    <li>Packages must be located within the <strong>src/</strong> directory of a ROS2 workspace.</li>
+    <li>Packages can be located in subdirectories of the src/ directory.</li>
+    <li>Each student should create a GitHub repository that contains all ROS2 packages for individual coursework.</li>
+</ul>
+
+```css {all|1|2|3-4|all}
+src/
+├── auvc_coursework/
+│   ├── intro_to_ros/
+│   ├── some_other_pkg/
+```
+
+---
+
+<h1>Creating ROS2 Packages</h1>
+
+<ul>
+    <li>ROS2 packages should be created using a terminal command.</li>
+</ul>
+
+```zsh {1|2}
+cd ~/auvc_ws/src/auvc_coursework
+ros2 pkg create --build-type ament_python your_package_name
+```
+
+<ul>
+    <li><strong>ament_python</strong> is the build type for ROS2 packages with only Python3 nodes.</li>
+    <li><strong>ament_cmake</strong> is the build type for ROS2 packages with either only C++ nodes or a mix of Python3 and C++ nodes.</li>
+</ul>
+
+---
+
+<h1>Default Structure of a ROS2 Package</h1>
+
+<ul>
+    <li>Creating a package with the command line will automatically populate several critical files.</li>
+    <li><strong>package.xml</strong> and <strong>setup.py</strong> must be modified to to successfully build the package.</li>
+    <li>Nodes (executable .py files) must go in <strong>your_pkg_name/your_pkg_name/</strong>, which in this case is <strong>intro_to_ros/intro_to_ros/</strong>.</li> 
+</ul>
+
+```css {all|1|2-3|5-6|all}
+intro_to_ros/
+├── package.xml
+├── setup.py
+├── setup.cfg
+├── intro_to_ros/
+│   └── __init__.py
+├── resource/
+└── test/
+```
+
+---
+
+<h1>Example Node</h1>
+
+<ul>
+    <li>To create a new node in a package, create a .py executable.</li>
+</ul>
+
+
+```css {1,5-7}
+intro_to_ros/
+├── package.xml
+├── setup.py
+├── setup.cfg
+├── intro_to_ros/
+│   ├── __init__.py
+│   └── pubsub.py
+├── resource/
+└── test/
+```
+
+---
+
+<h1>Example Node (cont.)</h1>
+
+```py {all|1-5|7|7,8,9|7,8,10|7,8,11|13-14|16-25|17|18|19|20-21|all}
+#!/usr/bin/env python3
+
+import rclpy
+from rclpy.node import Node
+from std_msgs.msg import String
+
+class PresentationExampleNode(Node):
+    def __init__(self):
+        super().__init__('presentation_example')
+        self.string2_pub = self.create_publisher(String, '/example/string2', 10)
+        self.string1_sub = self.create_subscriber(String, '/example/string1', self.string1_callback, 10)
+    
+    def string1_callback(self, msg):
+        self.string2_pub.publish(msg)
+
+def main(args=None):
+    rclpy.init(args=args)
+    node = PresentationExampleNode()
+    rclpy.spin(node)
+    node.destroy_node()
+    rclpy.shutdown()
+
+if __name__=='__main__':
+    main()
+```
+
+---
+
+<h1>Updating package.xml</h1>
+
+<ul>
+    <li>Dependencies from all nodes must be added to <strong>package.xml</strong>.</li>
+</ul>
+
+```xml
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xs>
+<package format="3">
+  <name>intro_to_ros</name>
+  <version>0.0.0</version>
+  <description>TODO: Package description</description>
+  <maintainer email="blue@backseat.local">blue</maintainer>
+  <license>TODO: License declaration</license>
+
+  <test_depend>ament_copyright</test_depend>
+  <test_depend>ament_flake8</test_depend>
+  <test_depend>ament_pep257</test_depend>
+  <test_depend>python3-pytest</test_depend>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>
+```
+
+---
+
+<h1>Updating package.xml (cont.)</h1>
+
+```xml {all|10-14}
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xs>
+<package format="3">
+  <name>intro_to_ros</name>
+  <version>0.0.0</version>
+  <description>TODO: Package description</description>
+  <maintainer email="blue@backseat.local">blue</maintainer>
+  <license>TODO: License declaration</license>
+
+  <build_depend>rclpy</build_depend>
+  <build_depend>std_msgs</build_depend>
+
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+
+  <test_depend>ament_copyright</test_depend>
+  <test_depend>ament_flake8</test_depend>
+  <test_depend>ament_pep257</test_depend>
+  <test_depend>python3-pytest</test_depend>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>
+```
+
+---
+
+<h1>Updating setup.py</h1>
+
+<ul>
+    <li>An entry point for each executable must be added to <strong>setup.py</strong>.</li>
+</ul>
+
+```py
+from setuptools import find_packages, setup
+
+package_name = 'intro_to_ros'
+setup(
+    name=package_name,
+    version='0.0.0',
+    packages=find_packages(exclude=['test']),
+    data_files=[
+        ('share/ament_index/resource_index/packages', ['resource/' + package_name]),
+        ('share/' + package_name, ['package.xml']),
+    ],
+    install_requires=['setuptools'],
+    zip_safe=True,
+    maintainer='mjnelson',
+    maintainer_email='mjnelson@todo.todo',
+    description='TODO: Package description',
+    license='TODO: License declaration',
+    tests_require=['pytest'],
+    entry_points={'console_scripts': [],
+    },
+)
+```
+
+---
+
+<h1>Updating setup.py (cont.)</h1>
+
+```py {all|19-21}
+from setuptools import find_packages, setup
+
+package_name = 'intro_to_ros'
+setup(
+    name=package_name,
+    version='0.0.0',
+    packages=find_packages(exclude=['test']),
+    data_files=[
+        ('share/ament_index/resource_index/packages', ['resource/' + package_name]),
+        ('share/' + package_name, ['package.xml']),
+    ],
+    install_requires=['setuptools'],
+    zip_safe=True,
+    maintainer='mjnelson',
+    maintainer_email='mjnelson@todo.todo',
+    description='TODO: Package description',
+    license='TODO: License declaration',
+    tests_require=['pytest'],
+    entry_points={'console_scripts': [
+            'pubsub = intro_to_ros.pubsub:main',
+        ],
+    },
+)
+```
+
+---
+
+<h1>Compiling the Package</h1>
+
+<ul>
+    <li>Packages must be compiled in the ROS2 workspace before any nodes are usable.</li>
+    <li>Packages must be compiled from the workspace's directory; e.g., ~/avuc_ws</li>
+    <li>Packages can be compiled with additional arguments.
+    <ul>
+        <li>The <strong>--packages-select</strong> argument specifies which packages should be compiled.</li>
+        <li>The <strong>--symlink-install</strong> argument creates symbolic links between the currently existing package files in src/ and the respective build/ and install/ files.</li>
+        <li>If new files are added to a package that is compiled using --symlink-install, the package will need to be recompiled.</li>
+    </ul></li>
+</ul>
+
+```zsh
+chmod +x ~/auvc_ws/src/auvc_coursework/intro_to_ros/intro_to_ros/pubsub.py
+cd ~/auvc_ws && colcon build --packages-select intro_to_ros
+```
