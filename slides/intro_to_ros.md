@@ -366,7 +366,7 @@ class PresentationExampleNode(Node):
     def __init__(self):
         super().__init__('presentation_example')
         self.string2_pub = self.create_publisher(String, '/example/string2', 10)
-        self.string1_sub = self.create_subscriber(String, '/example/string1', self.string1_callback, 10)
+        self.string1_sub = self.create_subscription(String, '/example/string1', self.string1_callback, 10)
     
     def string1_callback(self, msg):
         self.string2_pub.publish(msg)
