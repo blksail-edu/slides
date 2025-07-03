@@ -185,3 +185,38 @@ image: "./resources/ROS2_Service.gif"
 </div>
 
 ---
+
+# Workspace & Packages
+
+<div>
+    <ul>
+        <li>Workspaces are directories where users store and build their ROS 2 code.
+            <ul>
+                <li>Packages must be built in the workspace using <strong>colcon build</strong> before use.</li>
+            </ul>
+        </li>
+        <li>Workspaces contain four subdirectories:
+            <ul>
+                <li><strong>src/</strong> (contains user-written packages and code)</li>
+                <li>build/ (contains intermediate files)</li>
+                <li>install/ (contains final files and executables)</li>
+                <li>log/ (contains colcon build output)</li>
+            </ul>
+        </li>
+        <li>Packages are organization units for your code.
+            <ul>
+                <li>Each package should contain specific pieces of a robotic system.</li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+---
+layout: section
+---
+
+# ROS 2 Environment Setup
+
+<div class="absolute bottom-15">
+    Follow Along
+</div>
