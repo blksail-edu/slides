@@ -28,6 +28,23 @@ image: './resources/ROS2_JazzyJalisco.png'
 
 # Overview
 
+<div>
+    <ul>
+        <li><strong>ROS 2</strong> is an open-source framework containing libraries and tools to develop robotics systems.
+            <ul>
+                <li>Provides a modular structure for writing robotics software.</li>
+                <li>Used in research, education, and industry.</li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+---
+layout: default
+---
+
+<img src="./resources/ROS2_Architecture.png" alt="ROS 2 Architecture" style="width: 100%; display: block; margin: 0 auto;" />
+
 ---
 layout: section
 ---
