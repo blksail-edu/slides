@@ -12,7 +12,7 @@ transition: slide-left
 title: Introduction to ROS2
 download: true
 layout: intro-image-right
-image: './resources/ROS2_JazzyJalisco.png'
+image: 'https://github.com/blksail-edu/slides/blob/main/slides/resources/ROS2_JazzyJalisco.png'
 ---
 
 <div>
@@ -43,7 +43,7 @@ image: './resources/ROS2_JazzyJalisco.png'
 layout: default
 ---
 
-<img src="./resources/ROS2_Architecture.png" alt="ROS 2 Architecture" style="width: 100%; display: block; margin: 0 auto;" />
+<img src="https://github.com/blksail-edu/slides/blob/main/slides/resources/ROS2_Architecture.png" alt="ROS 2 Architecture" style="width: 100%; display: block; margin: 0 auto;" />
 
 ---
 layout: section
@@ -83,7 +83,7 @@ layout: section
 
 ---
 layout: image
-image: "./resources/ROS2_Nodes.gif"
+image: "https://github.com/blksail-edu/slides/blob/main/slides/resources/ROS2_Nodes.gif"
 ---
 
 ---
@@ -142,7 +142,7 @@ uint8[] data
 
 ---
 layout: image
-image: "./resources/ROS2_Topic_Nx_Publisher_Nx_Subscriber.gif"
+image: "https://github.com/blksail-edu/slides/blob/main/slides/resources/ROS2_Topic_Nx_Publisher_Nx_Subscriber.gif"
 ---
 
 ---
@@ -178,7 +178,7 @@ string message
 
 ---
 layout: image
-image: "./resources/ROS2_Service.gif"
+image: "https://github.com/blksail-edu/slides/blob/main/slides/resources/ROS2_Service.gif"
 ---
 
 ---
